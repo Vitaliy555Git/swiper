@@ -31,16 +31,19 @@ export default function getBreakpoint(breakpoints, base = 'window', containerEl)
   points.sort((a, b) => a.value - b.value);
   for (const { point, value, unit } of points) {
     if (base === 'window') {
-      if (window.matchMedia(`(min-width: ${value + unit})`).matches) {
+      if (window.matchMedia(`(max-width: ${value + unit})`).matches) {
         breakpoint = point;
+        break
       }
     } else if (unit === 'px' && value <= containerEl.clientWidth) {
       breakpoint = point;
+      break
     } else {
       const baseWidth = containerEl.clientWidth;
       const valueToCompare = processValue(containerEl, baseWidth, value, unit);
       if (valueToCompare <= baseWidth) {
         breakpoint = point;
+        break
       }
     }
   }
